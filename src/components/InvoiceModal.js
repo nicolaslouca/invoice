@@ -8,7 +8,7 @@ import Modal from 'react-bootstrap/Modal';
 import { BiPaperPlane, BiCloudDownload } from "react-icons/bi";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf'
-
+import logo from '../logo.png';
 function GenerateInvoice() {
   html2canvas(document.querySelector("#invoiceCapture")).then((canvas) => {
     const imgData = canvas.toDataURL('image/png', 1.0);
@@ -34,15 +34,20 @@ class InvoiceModal extends React.Component {
     return(
       <div>
         <Modal show={this.props.showModal} onHide={this.props.closeModal} size="lg" centered>
-          <div id="invoiceCapture">
-            <div className="d-flex flex-row justify-content-between align-items-start bg-light w-100 p-4">
-              <div className="w-100">
-                <h4 className="fw-bold my-2">{this.props.info.billFrom||'John Uberbacher'}</h4>
-                <h6 className="fw-bold text-secondary mb-1">
-                  Invoice #: {this.props.info.invoiceNumber||''}
-                </h6>
+        <div id="invoiceCapture">
+        <img src={logo}  style={{width:'200px' , height:'200px'}} alt="logo"></img>  
+          <div className="d-flex flex-row justify-content-between align-items-start bg-light w-100 p-4">
+          <div className="w-100">
+            <h4 className="fw-bold my-2">{this.props.info.billFrom||'John Uberbacher'}</h4>
+
+            <h6 className="fw-bold text-secondary mb-1">
+            Invoice #: {this.props.info.invoiceNumber||''}
+            </h6>
+
+      
               </div>
               <div className="text-end ms-4">
+              
                 <h6 className="fw-bold mt-1 mb-2">Amount&nbsp;Due:</h6>
                 <h5 className="fw-bold text-secondary"> {this.props.currency} {this.props.total}</h5>
               </div>
@@ -104,13 +109,6 @@ class InvoiceModal extends React.Component {
                     <td className="fw-bold" style={{width: '100px'}}>SUBTOTAL</td>
                     <td className="text-end" style={{width: '100px'}}>{this.props.currency} {this.props.subTotal}</td>
                   </tr>
-                  {this.props.taxAmmount != 0.00 &&
-                    <tr className="text-end">
-                      <td></td>
-                      <td className="fw-bold" style={{width: '100px'}}>TAX</td>
-                      <td className="text-end" style={{width: '100px'}}>{this.props.currency} {this.props.taxAmmount}</td>
-                    </tr>
-                  }
                   {this.props.discountAmmount != 0.00 &&
                     <tr className="text-end">
                       <td></td>
